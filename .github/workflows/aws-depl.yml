@@ -19,7 +19,9 @@ jobs:
         run: docker run -e CI=true sanyamgupta23/multi-aws-containers-test npm test
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    needs: tests
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
