@@ -16,7 +16,7 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build a test client image
-        run: docker build -t sanyamgupta23/multi-aws-containers-test -f Dockerfile.dev ./client
+        run: docker build -t sanyamgupta23/multi-aws-containers-test -f ./client/Dockerfile.dev ./client
 
       - name: Run tests in Docker
         run: docker run -e CI=true sanyamgupta23/multi-aws-containers-test npm test
