@@ -6,7 +6,19 @@ on:
       - "**"
 
 jobs:
-  test:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build a test client image
+        run: docker build -t sanyamgupta23/multi-aws-containers-test -f ./client/Dockerfile.dev ./client
+
+      - name: Run tests in Docker
+        run: docker run -e CI=true sanyamgupta23/multi-aws-containers-test npm test
+
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -15,8 +27,16 @@ jobs:
       - name: Login to Docker
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build a test client image
-        run: docker build -t sanyamgupta23/multi-aws-containers-test -f ./client/Dockerfile.dev ./client
+      - name: Build production images
+        run: |
+          docker build -t sanyamgupta23/multi-container-aws-client ./client
+          docker build -t sanyamgupta23/multi-container-aws-nginx ./nginx
+          docker build -t sanyamgupta23/multi-container-aws-worker ./worker
+          docker build -t sanyamgupta23/multi-container-aws-server ./server
 
-      - name: Run tests in Docker
-        run: docker run -e CI=true sanyamgupta23/multi-aws-containers-test npm test
+      - name: Push production images to Dockerhub
+        run: |
+          docker push sanyamgupta23/multi-container-aws-client
+          docker push sanyamgupta23/multi-container-aws-nginx
+          docker push sanyamgupta23/multi-container-aws-worker
+          docker push sanyamgupta23/multi-container-aws-server
