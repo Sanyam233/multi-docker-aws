@@ -1,74 +1,29 @@
 {
   "AWSEBDockerrunVersion": 1,
-  "Volumes": [
-    {
-      "name": "client-vol",
-      "host": {
-        "sourcePath": "/var/app/client"
-      }
-    },
-    {
-      "name": "worker-vol",
-      "host": {
-        "sourcePath": "/var/app/worker"
-      }
-    },
-    {
-      "name": "server-vol",
-      "host": {
-        "sourcePath": "/var/app/server"
-      }
-    }
-  ],
-  "ContainerDefinitions": [
+  "containerDefinitions": [
     {
       "name": "client",
-      "hostname": "client",
       "image": "sanyamgupta23/multi-container-aws-client",
-      "essential": false,
-      "memory": 128,
-      "mountPoints": [
-        {
-          "sourceVolume": "client-vol",
-          "containerPath": "/app"
-        }
-      ]
+      "essential": false
     },
     {
       "name": "worker",
-      "hostname": "worker",
       "image": "sanyamgupta23/multi-container-aws-worker",
-      "essential": false,
-      "memory": 128,
-      "mountPoints": [
-        {
-          "sourceVolume": "worker-vol",
-          "containerPath": "/app"
-        }
-      ]
+      "essential": false
     },
     {
       "name": "server",
-      "hostname": "api",
       "image": "sanyamgupta23/multi-container-aws-server",
-      "essential": false,
-      "memory": 128,
-      "mountPoints": [
-        {
-          "sourceVolume": "server-vol",
-          "containerPath": "/app"
-        }
-      ]
+      "essential": false
     },
     {
       "name": "nginx",
-      "hostname": "nginx",
       "image": "sanyamgupta23/multi-container-aws-nginx",
       "essential": true,
       "portMappings": [
         {
-          "hostPort": 80,
-          "containerPort": 80
+          "containerPort": 80,
+          "hostPort": 80
         }
       ],
       "links": ["client", "server"]
