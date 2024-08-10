@@ -1,23 +1,64 @@
 {
-  "AWSEBDockerrunVersion": 2,
+  "AWSEBDockerrunVersion": 1,
+  "Volumes": [
+    {
+      "name": "client-vol",
+      "host": {
+        "sourcePath": "/var/app/client"
+      }
+    },
+    {
+      "name": "worker-vol",
+      "host": {
+        "sourcePath": "/var/app/worker"
+      }
+    },
+    {
+      "name": "server-vol",
+      "host": {
+        "sourcePath": "/var/app/server"
+      }
+    }
+  ],
   "ContainerDefinitions": [
     {
       "name": "client",
       "hostname": "client",
       "image": "sanyamgupta23/multi-container-aws-client",
-      "essential": false
+      "essential": false,
+      "memory": 128,
+      "mountPoints": [
+        {
+          "sourceVolume": "client-vol",
+          "containerPath": "/app"
+        }
+      ]
     },
     {
       "name": "worker",
       "hostname": "worker",
       "image": "sanyamgupta23/multi-container-aws-worker",
-      "essential": false
+      "essential": false,
+      "memory": 128,
+      "mountPoints": [
+        {
+          "sourceVolume": "worker-vol",
+          "containerPath": "/app"
+        }
+      ]
     },
     {
       "name": "server",
       "hostname": "api",
       "image": "sanyamgupta23/multi-container-aws-server",
-      "essential": false
+      "essential": false,
+      "memory": 128,
+      "mountPoints": [
+        {
+          "sourceVolume": "server-vol",
+          "containerPath": "/app"
+        }
+      ]
     },
     {
       "name": "nginx",
