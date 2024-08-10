@@ -42,3 +42,21 @@ jobs:
           docker push sanyamgupta23/multi-container-aws-nginx
           docker push sanyamgupta23/multi-container-aws-worker
           docker push sanyamgupta23/multi-container-aws-server
+
+      - name: Build the deployment package with Dockerrun.aws.json
+        run: zip -r deploy.zip Dockerrun.aws.json -x '*.git*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: docker-multi-containers
+          environment_name: Docker-multi-containers-env
+          version_label: ${{ github.sha }}
+          existing_bucket_name: elasticbeanstalk-us-east-1-024848469382
+          region: us-east-1
+          deployment_package: deploy.zip
+
+      - name: Deployed!
+        run: echo App deployed to ELB
