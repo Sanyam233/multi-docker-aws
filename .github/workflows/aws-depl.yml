@@ -31,17 +31,17 @@ jobs:
 
       - name: Build production images
         run: |
-          docker build -t sanyamgupta23/multi-container-aws-client ./client
-          docker build -t sanyamgupta23/multi-container-aws-nginx ./nginx
-          docker build -t sanyamgupta23/multi-container-aws-worker ./worker
-          docker build -t sanyamgupta23/multi-container-aws-server ./server
+          docker build -t sanyamgupta23/multi-client ./client
+          docker build -t sanyamgupta23/multi-nginx ./nginx
+          docker build -t sanyamgupta23/multi-worker ./worker
+          docker build -t sanyamgupta23/multi-server ./server
 
       - name: Push production images to Dockerhub
         run: |
-          docker push sanyamgupta23/multi-container-aws-client
-          docker push sanyamgupta23/multi-container-aws-nginx
-          docker push sanyamgupta23/multi-container-aws-worker
-          docker push sanyamgupta23/multi-container-aws-server
+          docker push sanyamgupta23/multi-client
+          docker push sanyamgupta23/multi-nginx
+          docker push sanyamgupta23/multi-worker
+          docker push sanyamgupta23/multi-server
 
       - name: Build the deployment package with Dockerrun.aws.json
         run: zip -r deploy.zip Dockerrun.aws.json -x '*.git*'
