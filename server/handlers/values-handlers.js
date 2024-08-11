@@ -15,9 +15,9 @@ const getAllValues = async (req, res) => {
 
 const getCurrentValues = async (req, res) => {
   try {
-    const values = await req.redisClient.hGetAll("values");
+    // const values = await req.redisClient.hGetAll("values");
     res.status(200).json({
-      results: values,
+      results: ["Success"],
     });
   } catch (e) {
     res.status(500).json({

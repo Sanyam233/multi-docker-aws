@@ -7,21 +7,26 @@ const redisClient = redis.createClient({
 });
 
 (async () => {
-  await redisClient.connect();
-  const subscriber = redisClient.duplicate();
-  await subscriber.connect();
+  try {
+    await redisClient.connect();
+    const subscriber = redisClient.duplicate();
+    await subscriber.connect();
 
-  const fib = (index) => {
-    dp = [0, 1];
+    const fib = (index) => {
+      dp = [0, 1];
 
-    for (let i = 2; i <= index; i++) {
-      dp.push(dp[i - 1] + dp[i - 2]);
-    }
+      for (let i = 2; i <= index; i++) {
+        dp.push(dp[i - 1] + dp[i - 2]);
+      }
 
-    return dp[index];
-  };
+      return dp[index];
+    };
 
-  subscriber.subscribe("insert", async (message) => {
-    await redisClient.hSet("values", message, fib(parseInt(message)));
-  });
+    subscriber.subscribe("insert", async (message) => {
+      await redisClient.hSet("values", message, fib(parseInt(message)));
+    });
+  } catch (err) {
+    console.log("[ERROR] ", err);
+    process.exit(1);
+  }
 })();
