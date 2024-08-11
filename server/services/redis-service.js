@@ -6,7 +6,6 @@ const createRedisClient = async () => {
   try {
     const redisClient = redis.createClient({
       url: `redis://${keys.redisHost}:${keys.redisPort}`,
-      debug: true,
     });
     await redisClient.connect();
     console.log("Successfully connected");
