@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const pgClient = require("./services/postgres-service");
 const valuesRouter = require("./routes/values-routes");
-const { createRedisClient } = require("./services/redis-service");
+// const { createRedisClient } = require("./services/redis-service");
 // Express app setup
 const app = express();
 app.use(cors());
@@ -16,17 +16,16 @@ pgClient.on("connect", (client) => {
     .catch((error) => console.error(error));
 });
 
-(async () => {
-  const redisClient = await createRedisClient();
-  app.use(async (req, res, next) => {
-    console.log("IN THE MIDDLEWARE", req.body);
-    req.redisClient = redisClient;
-    next();
-  });
+// (async () => {
+//   const redisClient = await createRedisClient();
+//   app.use(async (req, res, next) => {
+//     req.redisClient = redisClient;
+//     next();
+//   });
 
-  app.use("/api/v1/values", valuesRouter);
+// })();
+app.use("/api/v1/values", valuesRouter);
 
-  app.listen(8000, () => {
-    console.log("App running on port: ", 8000);
-  });
-})();
+app.listen(8000, () => {
+  console.log("App running on port: ", 8000);
+});
