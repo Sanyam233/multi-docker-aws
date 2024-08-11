@@ -19,7 +19,7 @@ pgClient.on("connect", (client) => {
 
 (async () => {
   try {
-    const redisClient = await createRedisClient();
+    // const redisClient = await createRedisClient();
 
     // app.use(async (req, res, next) => {
     //   console.log("CONNECTINGGGGGGGGGGGGGGGGG");
