@@ -44,7 +44,7 @@ jobs:
           docker push sanyamgupta23/multi-server
 
       - name: Build the deployment package with Dockerrun.aws.json
-        run: zip -r deploy.zip docker-compose.yml -x '*.git*'
+        run: zip -r deploy.zip Dockerrun.aws.json -x '*.git*'
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
