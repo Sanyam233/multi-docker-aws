@@ -2,10 +2,9 @@ const pgClient = require("../services/postgres-service");
 
 const getAllValues = async (req, res) => {
   try {
-    // const values = await pgClient.query("SELECT * FROM values");
+    const values = await pgClient.query("SELECT * FROM values");
     return res.status(200).json({
-      // results: values.rows,
-      results: [{ number: 1 }, { number: 2 }],
+      results: values.rows,
     });
   } catch (e) {
     res.status(500).json({
