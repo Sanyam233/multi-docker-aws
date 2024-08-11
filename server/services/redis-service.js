@@ -21,8 +21,7 @@ const createRedisClient = async () => {
     console.log("Successfully connected");
     return redisClient;
   } catch (err) {
-    console.log("Redis couldn't connect", err);
-    process.exit(1);
+    throw new Error(err.message);
   }
 };
 
