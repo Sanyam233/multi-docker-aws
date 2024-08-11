@@ -16,6 +16,8 @@ const getAllValues = async (req, res) => {
 const getCurrentValues = async (req, res) => {
   try {
     // const values = await req.redisClient.hGetAll("values");
+    const values = [];
+    console.log("RUNNINGGGGG CURRENTTTTT");
     res.status(200).json({
       results: [],
       jj: "success",
