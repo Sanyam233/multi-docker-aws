@@ -31,10 +31,10 @@ jobs:
 
       - name: Build production images
         run: |
-          docker build -t sanyamgupta23/multi-client ./client
-          docker build -t sanyamgupta23/multi-nginx ./nginx
-          docker build -t sanyamgupta23/multi-worker ./worker
-          docker build -t sanyamgupta23/multi-server ./server
+          docker build --no-cache -t sanyamgupta23/multi-client ./client
+          docker build --no-cache -t sanyamgupta23/multi-nginx ./nginx
+          docker build --no-cache -t sanyamgupta23/multi-worker ./worker
+          docker build --no-cache -t sanyamgupta23/multi-server ./server
 
       - name: Push production images to Dockerhub
         run: |
