@@ -3,9 +3,9 @@ const redisClient = require("../services/redis-service");
 
 const getAllValues = async (req, res) => {
   try {
-    // const values = await pgClient.query("SELECT * FROM values");
+    const values = await pgClient.query("SELECT * FROM values");
     return res.status(200).json({
-      results: [],
+      results: values.rows,
     });
   } catch (e) {
     res.status(500).json({
@@ -16,13 +16,10 @@ const getAllValues = async (req, res) => {
 
 const getCurrentValues = async (req, res) => {
   try {
-    // redisClient.hGetAll("values", (err, values) => {
-    //   res.status(200).json({
-    //     results: values,
-    //   });
-    // });
-    return res.status(200).json({
-      results: ["success"],
+    redisClient.hGetAll("values", (err, values) => {
+      res.status(200).json({
+        results: values,
+      });
     });
   } catch (e) {
     res.status(500).json({
