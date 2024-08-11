@@ -20,14 +20,11 @@ pgClient.on("connect", (client) => {
 (async () => {
   try {
     const redisClient = await createRedisClient();
-
-    console.log("IN HERE", redisClient);
-
-    // app.use(async (req, res, next) => {
-    //   console.log("CONNECTINGGGGGGGGGGGGGGGGG");
-    //   req.redisClient = redisClient;
-    //   next();
-    // });
+    app.use(async (req, res, next) => {
+      console.log("CONNECTINGGGGGGGGGGGGGGGGG");
+      req.redisClient = redisClient;
+      next();
+    });
 
     app.use("/api/v1/values", valuesRouter);
 
