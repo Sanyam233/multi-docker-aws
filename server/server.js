@@ -20,10 +20,14 @@ pgClient.on("connect", (client) => {
 (async () => {
   try {
     const redisClient = await createRedisClient();
+
     app.use(async (req, res, next) => {
+      console.log("CONNECTINGGGGGGGGGGGGGGGGG");
       req.redisClient = redisClient;
       next();
     });
+
+    app.use("/api/v1/values", valuesRouter);
 
     app.listen(8000, () => {
       console.log("App running on port: ", 8000);
@@ -32,5 +36,3 @@ pgClient.on("connect", (client) => {
     console.log("[ERROR]", err);
   }
 })();
-
-app.use("/api/v1/values", valuesRouter);

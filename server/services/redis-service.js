@@ -9,11 +9,12 @@ const createRedisClient = async () => {
       timeout: 5000,
       reconnectStrategy: (retries) => {
         if (retries > 5) {
-          return new Error("Max retries reached");
+          return null;
         }
         return Math.min(retries * 50, 500);
       },
     },
+    debug: true,
   });
 
   try {
@@ -21,7 +22,8 @@ const createRedisClient = async () => {
     console.log("Successfully connected");
     return redisClient;
   } catch (err) {
-    throw new Error(err.message);
+    console.log("[ERROR]", err.message);
+    throw err;
   }
 };
 
