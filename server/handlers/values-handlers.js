@@ -1,5 +1,4 @@
 const pgClient = require("../services/postgres-service");
-const redisClient = require("../services/redis-service");
 
 const getAllValues = async (req, res) => {
   try {
@@ -16,10 +15,9 @@ const getAllValues = async (req, res) => {
 
 const getCurrentValues = async (req, res) => {
   try {
-    redisClient.hGetAll("values", (err, values) => {
-      res.status(200).json({
-        results: values,
-      });
+    const values = await req.redisClient.hGetAll("values");
+    res.status(200).json({
+      results: values,
     });
   } catch (e) {
     res.status(500).json({
@@ -31,11 +29,10 @@ const getCurrentValues = async (req, res) => {
 const submitIndex = async (req, res) => {
   try {
     const index = req.body.index;
-    const redisPublisher = redisClient.duplicate();
 
     // Add the value to redis
-    redisClient.hSet("values", index, -1);
-    redisPublisher.publish("insert", index);
+    await req.redisClient.hSet("values", index, -1);
+    await req.redisClient.publish("insert", index);
 
     // Add the value to postgres
     pgClient.query("INSERT INTO values(number) VALUES($1)", [index]);
