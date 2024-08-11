@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const pgClient = require("./services/postgres-service");
 const valuesRouter = require("./routes/values-routes");
-// const { createRedisClient } = require("./services/redis-service");
+const { createRedisClient } = require("./services/redis-service");
 
 // Express app setup
 const app = express();
@@ -19,7 +19,9 @@ pgClient.on("connect", (client) => {
 
 (async () => {
   try {
-    // const redisClient = await createRedisClient();
+    const redisClient = await createRedisClient();
+
+    console.log("IN HERE", redisClient);
 
     // app.use(async (req, res, next) => {
     //   console.log("CONNECTINGGGGGGGGGGGGGGGGG");
