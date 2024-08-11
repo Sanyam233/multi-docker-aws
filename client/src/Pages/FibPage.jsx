@@ -8,8 +8,8 @@ const FibPage = () => {
 
   useEffect(() => {
     const fetchAndUpdateState = async () => {
-      const valuesResponse = await axios.get("/api/v1/values/current");
       const indexesResponse = await axios.get("/api/v1/values/all");
+      const valuesResponse = await axios.get("/api/v1/values/current");
 
       const currentIndexes = indexesResponse?.data?.results ?? [];
       const currentValues = valuesResponse?.data?.results ?? [];

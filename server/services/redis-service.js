@@ -4,7 +4,16 @@ const keys = require("../keys");
 const createRedisClient = async () => {
   const redisClient = redis.createClient({
     url: `redis://${keys.redisHost}:${keys.redisPort}`,
-    retry_strategy: () => 1000,
+    socket: {
+      connectTimeout: 5000, // in milliseconds
+      timeout: 5000,
+      reconnectStrategy: (retries) => {
+        if (retries > 5) {
+          return new Error("Max retries reached");
+        }
+        return Math.min(retries * 50, 500);
+      },
+    },
   });
 
   try {

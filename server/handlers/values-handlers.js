@@ -17,7 +17,8 @@ const getCurrentValues = async (req, res) => {
   try {
     // const values = await req.redisClient.hGetAll("values");
     res.status(200).json({
-      results: ["Success"],
+      results: [],
+      jj: "success",
     });
   } catch (e) {
     res.status(500).json({
