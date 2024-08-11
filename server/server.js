@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const pgClient = require("./services/postgres-service");
 const valuesRouter = require("./routes/values-routes");
-const { createRedisClient } = require("./services/redis-service");
+// const { createRedisClient } = require("./services/redis-service");
 
 // Express app setup
 const app = express();
